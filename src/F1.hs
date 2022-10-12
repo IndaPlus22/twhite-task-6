@@ -1,18 +1,59 @@
 module F1 where
 
+import Data.Char 
+
 fib :: Integer -> Integer
 fib 0 = 0
 fib 1 = 1 
-fib n = (n - 1) + (n - 2)
+fib n = fib (n - 1) + fib (n - 2)
+
+rovarsprak :: String -> String
+rovarsprak = concatMap (\c -> if isVowel c then [c] else [c, 'o', c])
+
+karpsravor :: String -> String
+karpsravor "" = ""
+karpsravor s = if not (isVowel (head s)) 
+    then head s : karpsravor (drop 2 (tail s))
+    else head s : karpsravor (tail s)
+
+isVowel :: Char -> Bool
+isVowel c = c `elem` "aeiouy"
+
+
+medellangd :: String -> Double
+medellangd "" = 0
+medellangd s = countLetters s / countWords s
+
+countLetters :: String -> Double
+countLetters = fromIntegral . length . filter isAlpha
+
+countWords :: String -> Double
+countWords s = fromIntegral (length (words s))
+
+skyffla :: [x] -> [x]
+skyffla [] = []
+skyffla list = everyOther list ++ skyffla (everyOther (tail list))
+    where
+        everyOther :: [x] -> [x]
+        everyOther [] = []
+        everyOther list = if length list == 1 
+            then list
+            else head list : everyOther (drop 1 (tail list))
 
 main :: IO ()
 main = do 
-    let res = fib 13
-    print res
+    let res_fib = fib 42
+    print res_fib
 
--- Vad ska de andra funktionernas typsignaturer vara?
-{- 
-rovarsprak s = s
-karpsravor s = s
-medellangd s = 1.0
-skyffla s = s -}
+    let s = rovarsprak "progp"
+    print s 
+    let k  = karpsravor(rovarsprak "progp")
+    print k
+
+    let pie  = medellangd "No, I am definitely not a pie!"
+    print pie
+    let such = medellangd "w0w such t3xt..."
+    print such
+
+    let res_skyffla = skyffla  [1..9]
+    print res_skyffla
