@@ -2,10 +2,10 @@ module F1 where
 
 import Data.Char 
 
-fib :: Integer -> Integer
+fib :: int -> int
 fib 0 = 0
-fib 1 = 1 
-fib n = fib (n - 1) + fib (n - 2)
+fib 1 = 1
+fib n = fib (n-1) + fib (n-2)
 
 rovarsprak :: String -> String
 rovarsprak = concatMap (\c -> if isVowel c then [c] else [c, 'o', c])
@@ -19,16 +19,20 @@ karpsravor s = if not (isVowel (head s))
 isVowel :: Char -> Bool
 isVowel c = c `elem` "aeiouy"
 
-
 medellangd :: String -> Double
 medellangd "" = 0
 medellangd s = countLetters s / countWords s
 
 countLetters :: String -> Double
-countLetters = fromIntegral . length . filter isAlpha
-
+countLetters s = fromIntegral (length (filter isAlpha s))
 countWords :: String -> Double
-countWords s = fromIntegral (length (words s))
+countWords s = fromIntegral (length (words (splitWords s)))
+
+splitWords :: String -> String
+splitWords [] = []
+splitWords (x:xs) = if isAlpha x 
+    then x: splitWords xs
+    else ' ' : splitWords xs
 
 skyffla :: [x] -> [x]
 skyffla [] = []

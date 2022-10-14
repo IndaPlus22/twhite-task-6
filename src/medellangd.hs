@@ -9,7 +9,13 @@ medellangd s = countLetters s / countWords s
         countLetters :: String -> Double
         countLetters s = fromIntegral (length (filter isAlpha s))
         countWords :: String -> Double
-        countWords s = 
+        countWords s = fromIntegral (length (words (splitWords s)))
+
+        splitWords :: String -> String
+        splitWords [] = []
+        splitWords (x:xs) = if isAlpha x 
+                            then x: splitWords xs
+                            else ' ' : splitWords xs
     
 main :: IO ()
 main = do
