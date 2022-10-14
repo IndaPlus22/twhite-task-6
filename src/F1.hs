@@ -22,17 +22,17 @@ isVowel c = c `elem` "aeiouy"
 medellangd :: String -> Double
 medellangd "" = 0
 medellangd s = countLetters s / countWords s
+    where
+        countLetters :: String -> Double
+        countLetters s = fromIntegral (length (filter isAlpha s))
+        countWords :: String -> Double
+        countWords s = fromIntegral (length (words (splitWords s)))
 
-countLetters :: String -> Double
-countLetters s = fromIntegral (length (filter isAlpha s))
-countWords :: String -> Double
-countWords s = fromIntegral (length (words (splitWords s)))
-
-splitWords :: String -> String
-splitWords [] = []
-splitWords (x:xs) = if isAlpha x 
-    then x: splitWords xs
-    else ' ' : splitWords xs
+        splitWords :: String -> String
+        splitWords [] = []
+        splitWords (x:xs) = if isAlpha x 
+                            then x: splitWords xs
+                            else ' ' : splitWords xs
 
 skyffla :: [x] -> [x]
 skyffla [] = []
@@ -40,7 +40,8 @@ skyffla list = everyOther list ++ skyffla (everyOther (tail list))
     where
         everyOther :: [x] -> [x]
         everyOther [] = []
-        everyOther list = if length list == 1 
+        everyOther list = 
+            if length list == 1 
             then list
             else head list : everyOther (drop 1 (tail list))
 
